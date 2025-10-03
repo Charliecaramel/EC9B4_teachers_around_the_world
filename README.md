@@ -60,8 +60,7 @@ Due to the size of the raw data, it is not included in this replication archive.
 
 To obtain the data:
 
-- Register on the IPUMS International website:  
-  [https://international.ipums.org/international](https://international.ipums.org/international)
+- Register on the [IPUMS International website](https://international.ipums.org/international)
 
 - After registering, extract the raw survey data.  
   Note: The data was extracted by country and ordered alphabetically where possible. The downloaded files are in `.dta` format (`ipums00xx.dta`), where `xx` represents the extraction identifiers.
@@ -73,10 +72,10 @@ Due to the size of the raw data, it is not included in this replication archive.
 
 To obtain the data:
 
-- Register on OECD website to obatin Public use files:(https://www.oecd.org/en/about/programmes/piaac.html)
+- Register on [OECD website](https://www.oecd.org/en/about/programmes/piaac.html) to obatin Public use files
 - Save the PIACC PUF in the folder `Data_piaac/first_wave`
 
-- Register on World Bank STEP program: (https://microdata.worldbank.org/index.php/collections/step)
+- Register on [World Bank STEP program](https://microdata.worldbank.org/index.php/collections/step)
 - Save the PIACC PUF in the folder `Data_piaac/STEP`
 
 ### Notes
