@@ -15,8 +15,8 @@ clear all
 foreach country in brazil indonesia canada dr mauritius tt mexico panama sa uruguay us venezuela israel jamaica {
     global thiscountry `country' 
     use "Data_ipmus/`country'/`country'.dta", clear
-    do "DO/wage_premia_reg.do" // This file runs the regressions and save results in memory
-	do "DO/wage_premia_result.do" // These files runs access the stored result and write into a dataset
+    do "DO/ipmus_data_processing/wage_premia_reg.do" // This file runs the regressions and save results in memory
+	do "DO/ipmus_data_processing/wage_premia_result.do" // These files runs access the stored result and write into a dataset
     estimates drop _all 
 }
 
@@ -42,8 +42,8 @@ save "Data_ipmus/lincom_results_combined.dta",replace
 foreach country in brazil indonesia canada dr mauritius tt mexico panama sa uruguay us venezuela israel jamaica {
     global thiscountry `country' 
     use "Data_ipmus/`country'/`country'.dta", clear
-    do "DO/degree_premia_reg.do" // This file runs the regressions and save results in memory
-	do "DO/degree_premia_result.do" // These files runs access the stored result and write into a dataset
+    do "DO/ipmus_data_processing/degree_premia_reg.do" // This file runs the regressions and save results in memory
+	do "DO/ipmus_data_processing/degree_premia_result.do" // These files runs access the stored result and write into a dataset
     estimates drop _all 
 }
 
@@ -67,12 +67,16 @@ save "Data_ipmus/lincom_uni_combined.dta",replace
 *******************************************************************************
 *[2] Generating education and other variables for teachers and average worker 
 *******************************************************************************
+
+* Making a dataset to identify samples with insufficent occ for employed pop
+do  "DO/ipmus_data_processing/missing_occ_country.do"
+
 * Cohorts
 
 foreach country in argentina armenia austria brazil belarus benin bf bolivia botswana cambodia cameroon canada chile china coloumbia cr cuba dr ecuador egypt es ethiopia fiji finland france ghana greece guatemala guinea haiti honduras hungary indonesia iran ireland israel italy jamaica jordan kenya kyrgyzstan laos lesotho liberia malawi malaysia mali mauritius mexico mongolia morocco mozambique nepal nicaragua pakistan panama papau paraguay peru philippines poland portugal Romania Rwanda sa sengal sl slovakia slovenia spain suriname switzerland tanzania thailand tt turkey uganda uruguay us venezuela vietnam zambia {
 	use  "Data_ipmus/`country'/`country'.dta" ,replace
-    quietly do  "DO/collapsed_impus_cohort_var.do"
-	do  "DO/collapsed_impus_cohort_merge.do"
+    quietly do  "DO/ipmus_data_processing/collapsed_impus_cohort_var.do"
+	do  "DO/ipmus_data_processing/collapsed_impus_cohort_merge.do"
 	save "Data_ipmus/temp/`country'_edu_cohort_collapsed.dta", replace	
 }
 
@@ -99,8 +103,8 @@ save "Data_ipmus\baseline_country.dta"
 
 foreach country in argentina armenia austria brazil belarus benin bf bolivia botswana cambodia cameroon canada chile china coloumbia cr cuba dr ecuador egypt es ethiopia fiji finland france ghana greece guatemala guinea haiti honduras hungary indonesia iran ireland israel italy jamaica jordan kenya kyrgyzstan laos lesotho liberia malawi malaysia mali mauritius mexico mongolia morocco mozambique nepal nicaragua pakistan panama papau paraguay peru philippines poland portugal Romania Rwanda sa sengal sl slovakia slovenia spain suriname switzerland tanzania thailand tt turkey uganda uruguay us venezuela vietnam zambia {
 	use  "Data_ipmus/`country'/`country'.dta" ,replace
-    qui do  "DO/collapsed_impus_var.do"
-	qui do  "DO/collapsed_impus_merge.do"
+    qui do  "DO/ipmus_data_processing/collapsed_impus_var.do"
+	qui do  "DO/ipmus_data_processing/collapsed_impus_merge.do"
 	save "Data_ipmus/temp/`country'_edu_collapsed.dta", replace	
 }
 
@@ -132,6 +136,9 @@ foreach var in teacher_share_uni_f hs_share_uni_f ls_share_uni_f ///
     replace `var' = . if `var' == 0
 }
 
+merge 1:1 country year using "Data_ipmus\missing_occ_country.dta"
+drop if problem == 1
+drop _m
 
 save "Data_ipmus/collapsed_combined.dta",replace
 
@@ -142,8 +149,8 @@ save "Data_ipmus/collapsed_combined.dta",replace
 foreach country in brazil indonesia canada dr mauritius tt mexico panama sa uruguay us venezuela israel jamaica {
     global thiscountry `country' 
     use "Data_ipmus/`country'/`country'.dta", clear
-    do "DO/wage_premia_reg_robustness.do" // This file runs the regressions and save results in memory
-	do "DO/wage_premia_result_robustness.do" // These files runs access the stored result and write into a dataset
+    do "DO/ipmus_data_processing/wage_premia_reg_robustness.do" // This file runs the regressions and save results in memory
+	do "DO/ipmus_data_processing/wage_premia_result_robustness.do" // These files runs access the stored result and write into a dataset
     estimates drop _all 
 }
 
@@ -170,8 +177,8 @@ save "Data_ipmus/lincom_results_combined_r.dta",replace
 foreach country in brazil indonesia canada dr mauritius tt mexico panama sa uruguay us venezuela israel jamaica {
     global thiscountry `country' 
     use "Data_ipmus/`country'/`country'.dta", clear
-    do "DO/degree_premia_reg_robustness.do" // This file runs the regressions and save results in memory
-	do "DO/degree_premia_result_robustness.do" // These files runs access the stored result and write into a dataset
+    do "DO/ipmus_data_processing/degree_premia_reg_robustness.do" // This file runs the regressions and save results in memory
+	do "DO/ipmus_data_processing/degree_premia_result_robustness.do" // These files runs access the stored result and write into a dataset
     estimates drop _all 
 }
 

@@ -412,14 +412,21 @@
 
 	  * Identifying the OCCISCO professionals for teacher identifications
 	  * Note, some years OCC for Israel makes distinction for academic occupations. so we use that as
-	  * "Professionals" for the purpose of this paper. 
+	  * "Professionals" for the purpose of this paper.
 	  capture gen occisco = . if country_str == "Israel"
-	  replace occisco = 2  if (occ == 0) & sample_str == "Israel 1972" 
-	  replace occisco = 2 if (occ == 1) & sample_str == "Israel 1983" 
-	  replace occisco = 2 if (occ == 0) & sample_str == "Israel 1995"
-	  replace occisco = 2 if (occ == 0) & sample_str == "Israel 2008"
-	  
-	  
+	  replace occisco = 11 if (occ != 8 | occ!= 9) & sample_str == "Israel 1972" 
+	  replace occisco = 11 if (occ != 98 | occ!= 99) & sample_str == "Israel 1983" 
+	  replace occisco = 11 if (occ != 98 | occ!= 99) & sample_str == "Israel 1995" 
+	  replace occisco = 11 if (occ != 8 | occ!= 9) & sample_str == "Israel 2008" 
+	  replace occisco = 2  if occ == 0 & sample_str == "Israel 1972" 
+	  replace occisco = 2 if occ == 1 & sample_str == "Israel 1983" 
+	  replace occisco = 2 if occ == 0 & sample_str == "Israel 1995"
+	  replace occisco = 2 if occ == 0 & sample_str == "Israel 2008" 
+	  replace occisco = . if (occ == 8 | occ== 9) & sample_str == "Israel 1972" 
+	  replace occisco = . if (occ == 98 | occ== 99) & sample_str == "Israel 1983" 
+	  replace occisco = . if (occ == 98 | occ==99) & sample_str == "Israel 1995" 
+	  replace occisco = . if (occ == 8 | occ== 9) & sample_str == "Israel 2008" 
+
 	  gen high_skill = 0 
 	  replace high_skill = 1 if skill_level == 3
 	  replace high_skill = . if skill_level ==.
